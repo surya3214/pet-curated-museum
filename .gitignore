@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Frontend env files
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Backend / Python env files
+backend/.env
+.env
+.env.*
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache / build
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# Editor
+.vscode/
+.idea/
+
+
+# Accidental browser-saved files
+backend/requirements.txt.html
+backend/requirements.txt_files/
