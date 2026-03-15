@@ -1,0 +1,89 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local env/config secrets
+.env
+.env.*
+!.env.example
+
+# Git / OS noise
+.git/
+.gitignore
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Build / test / local tooling
+coverage/
+htmlcov/
+dist/
+build/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+
+# Logs
+*.log
+logs/
+tmp/
+temp/
+
+# Notebook / research junk
+notebooks/
+*.ipynb
+
+# Local media artifacts - important for your app
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.ogg
+*.flac
+
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+
+# Generated outputs / archives / debug payloads
+outputs/
+artifacts/
+archive/
+archives/
+samples/
+debug/
+debug_outputs/
+generated/
+generated_audio/
+generated_images/
+exports/
+
+# Frontend should not be inside backend deploy context
+node_modules/
+src/
+public/
+
+# Local uploaded assets if stored under backend
+uploads/
+user_uploads/
+input_images/
+input_audio/
+
+# Tool caches
+.cache/

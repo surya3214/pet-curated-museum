@@ -1,0 +1,26 @@
+# backend/.gcloudignore
+.gcloudignore
+.git
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+.env
+.env.*
+.DS_Store
+logs
+tmp
+temp
+artifacts
+outputs
+generated
+generated_audio
+generated_images
+uploads
+notebooks
+*.wav
+*.mp3
+*.png
+*.jpg
+*.jpeg

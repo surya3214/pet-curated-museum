@@ -210,12 +210,6 @@ export const ExhibitGallery: React.FC<ExhibitGalleryProps> = ({ exhibit }) => {
                 A curated record of the day’s disturbances, observations, and
                 temporary human fixations, reviewed under feline authority.
               </p>
-
-              <ShareExhibitFilesButton
-                imageDataUrls={imageDataUrls}
-                title="Pet-Curated Museum of a Day"
-                caption="A tiny AI museum exhibit narrated by my pet."
-              />
             </div>
           </div>
         </div>
