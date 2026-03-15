@@ -39,6 +39,8 @@ export interface ExhibitResponse {
 export type TextBlock = {
   type: "text";
   text: string;
+  audio_base64?: string;
+  audio_mime_type?: string;
 };
 
 export type ImageBlock = {

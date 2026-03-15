@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, HTTPException
+
 from prompts.interleaved_exhibit_prompt import INTERLEAVED_EXHIBIT_PROMPT
 from services.interleaved_exhibit_service import generate_interleaved_exhibit
 

@@ -4,6 +4,7 @@ from typing import List, Tuple, Any
 from google import genai
 
 from config.settings import GEMINI_API_KEY, GEMINI_INTERLEAVED_MODEL, MAX_DAY_MEDIA
+from services.tts_service import synthesize_text_block
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -59,6 +60,33 @@ def _normalize_output_block(output: Any) -> dict | None:
     return None
 
 
+def _attach_audio_to_text_blocks(blocks: List[dict]) -> List[dict]:
+    enriched_blocks = []
+
+    for block in blocks:
+        if block.get("type") != "text":
+            enriched_blocks.append(block)
+            continue
+
+        text = (block.get("text") or "").strip()
+        new_block = dict(block)
+
+        if not text:
+            enriched_blocks.append(new_block)
+            continue
+
+        try:
+            wav_bytes = synthesize_text_block(text)
+            new_block["audio_base64"] = base64.b64encode(wav_bytes).decode("utf-8")
+            new_block["audio_mime_type"] = "audio/wav"
+        except Exception as e:
+            print(f"Warning: failed to synthesize audio for text block: {e}")
+
+        enriched_blocks.append(new_block)
+
+    return enriched_blocks
+
+
 def generate_interleaved_exhibit(
     prompt: str,
     pet_image: Tuple[bytes, str],
@@ -70,7 +98,7 @@ def generate_interleaved_exhibit(
     ]
 
     for idx, (image_bytes, mime_type) in enumerate(day_media[:MAX_DAY_MEDIA], start=1):
-        input_blocks.append({"type": "text", "text": f"Day artifact input {idx}"})
+        input_blocks.append({"type": "text", "text": f"Primary artifact reference {idx}"})
         input_blocks.append(_image_input_block(image_bytes, mime_type))
 
     interaction = client.interactions.create(
@@ -86,17 +114,15 @@ def generate_interleaved_exhibit(
         store=False,
     )
 
-    # print("INTERACTION OUTPUTS RAW:")
-    # for idx, output in enumerate(interaction.outputs):
-    #     print(idx, repr(output))
-
     normalized_blocks = []
     for output in interaction.outputs:
         block = _normalize_output_block(output)
         if block is not None:
             normalized_blocks.append(block)
 
+    enriched_blocks = _attach_audio_to_text_blocks(normalized_blocks)
+
     return {
         "interaction_id": getattr(interaction, "id", None),
-        "blocks": normalized_blocks,
+        "blocks": enriched_blocks,
     }
