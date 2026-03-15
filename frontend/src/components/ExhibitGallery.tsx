@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { InterleavedExhibitResponse, TextBlock } from '../types/exhibit';
 import { APP_ASSETS } from '../config/constants';
+import ShareExhibitFilesButton from "./ShareExhibitFilesButton";
 
 interface ExhibitGalleryProps {
   exhibit: InterleavedExhibitResponse;
@@ -209,6 +210,12 @@ export const ExhibitGallery: React.FC<ExhibitGalleryProps> = ({ exhibit }) => {
                 A curated record of the day’s disturbances, observations, and
                 temporary human fixations, reviewed under feline authority.
               </p>
+
+              <ShareExhibitFilesButton
+                imageDataUrls={imageDataUrls}
+                title="Pet-Curated Museum of a Day"
+                caption="A tiny AI museum exhibit narrated by my pet."
+              />
             </div>
           </div>
         </div>
