@@ -32,7 +32,6 @@ __pycache__/
 .vscode/
 .idea/
 
-
 # Accidental browser-saved files
 backend/requirements.txt.html
 backend/requirements.txt_files/

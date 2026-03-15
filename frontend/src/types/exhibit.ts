@@ -35,3 +35,21 @@ export interface ExhibitResponse {
   render_manifest: RenderManifest;
   artifact_cards: ArtifactCard[];
 }
+
+export type TextBlock = {
+  type: "text";
+  text: string;
+};
+
+export type ImageBlock = {
+  type: "image";
+  mime_type: string;
+  data_base64: string;
+};
+
+export type ExhibitBlock = TextBlock | ImageBlock;
+
+export type InterleavedExhibitResponse = {
+  interaction_id?: string | null;
+  blocks: ExhibitBlock[];
+};

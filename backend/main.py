@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from services.gemini_client import GeminiClient
 from models.schemas import ExhibitResponse
+from routes.exhibit import router as exhibit_router
 
 app = FastAPI(title="Pet-Curated Museum API")
 app.add_middleware(
@@ -12,6 +13,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(exhibit_router)
+
+@app.get("/healthz")
+def healthz():
+    return {"ok": True}
 
 try:
     gemini_client = GeminiClient()
