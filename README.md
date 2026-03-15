@@ -96,3 +96,45 @@ vibe_override (optional)
 - Generate the exhibit.
 - Read the artifact cards.
 - Play the curator’s narration.
+
+## Deploy backend on Google Cloud
+
+```bash
+cd /Users/surya/Projects/GeminiLive/pet-curated-museum/backend
+
+export PROJECT_ID="YOUR_GCP_PROJECT_ID"
+export REGION="asia-south1"
+export SERVICE_NAME="pet-curated-museum-api"
+export GEMINI_API_KEY="YOUR_ACTUAL_GEMINI_API_KEY"
+
+gcloud auth login
+gcloud config set project "$PROJECT_ID"
+
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+
+gcloud run deploy "$SERVICE_NAME" \
+  --source . \
+  --region "$REGION" \
+  --allow-unauthenticated \
+  --set-env-vars "GEMINI_API_KEY=$GEMINI_API_KEY"
+```
+
+## Test Google Cloud backend
+```bash
+export CLOUD_RUN_URL="PASTE_THE_SERVICE_URL_HERE"
+
+curl "$CLOUD_RUN_URL/health"
+
+curl -X POST "$CLOUD_RUN_URL/api/v1/curate" \
+  -F "pet_photo=@/pet_photo.jpeg" \
+  -F "day_photos=@/day_photo_1.jpeg" \
+  -F "day_photos=@/day_photo_2.jpg" \
+  -F "day_photos=@/day_photo_3.jpeg"
+```
+
+## Front end changes
+- After the backend test passes, update your frontend to use the Cloud Run URL instead of localhost.
+
+- pet-curated-museum/frontend/.env.local
+```text
+VITE_API_BASE_URL=PASTE_YOUR_CLOUD_RUN_URL_HERE```
