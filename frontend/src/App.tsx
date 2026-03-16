@@ -120,34 +120,34 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8f4ed_0%,_#f1ebe1_45%,_#e8dfd1_100%)] text-neutral-900">
-      <main className="max-w-6xl mx-auto px-6 py-8 md:px-8">
+      <main className="mx-auto max-w-5xl px-4 py-6 sm:px-5 md:px-6 lg:px-8">
         {appState === 'setup' && (
-          <div className="grid gap-8 items-stretch lg:grid-cols-[1.05fr_0.95fr] lg:mt-10">
+          <div className="grid items-stretch gap-6 min-[900px]:mt-8 min-[900px]:grid-cols-[1.02fr_0.98fr] min-[900px]:gap-8">
             <section className="overflow-hidden rounded-[28px] border border-stone-200 bg-[#fcfaf7] shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
-              <div className="relative h-full min-h-[320px] lg:min-h-[680px]">
+              <div className="relative h-full min-h-[280px] min-[900px]:min-h-[560px] lg:min-h-[680px]">
                 <img
                   src={APP_ASSETS.hero}
                   alt="Curator hero"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10" />
-                <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 text-white">
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 md:p-10 text-white">
                   <div className="mb-4 inline-flex items-center gap-3 rounded-full bg-white/12 px-4 py-2 backdrop-blur-sm border border-white/20">
                     <img
                       src={APP_ASSETS.crest}
                       alt="Museum crest"
                       className="h-8 w-8 rounded-full object-cover border border-white/30"
                     />
-                    <span className="text-xs uppercase tracking-[0.28em] text-white/90">
+                    <span className="text-[11px] uppercase tracking-[0.28em] text-white/90 sm:text-xs">
                       Curatorial Department
                     </span>
                   </div>
 
-                  <h1 className="max-w-2xl font-serif text-4xl md:text-5xl leading-tight tracking-tight">
+                  <h1 className="max-w-2xl font-serif text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">
                     Pet-Curated Museum of a Day
                   </h1>
 
-                  <p className="mt-4 max-w-xl text-[1.05rem] leading-7 text-white/88">
+                  <p className="mt-4 max-w-xl text-[0.98rem] leading-7 text-white/88 sm:text-[1.05rem]">
                     Turn your daily snapshots into a miniature mixed-media museum,
                     narrated with dry authority by your pet.
                   </p>
@@ -155,27 +155,27 @@ export default function App() {
               </div>
             </section>
 
-            <section className="rounded-[28px] border border-stone-200 bg-[#fcfaf7] p-6 md:p-8 shadow-[0_12px_32px_rgba(0,0,0,0.05)]">
+            <section className="rounded-[28px] border border-stone-200 bg-[#fcfaf7] p-5 sm:p-6 md:p-8 shadow-[0_12px_32px_rgba(0,0,0,0.05)]">
               <div className="mb-6 flex items-center gap-4">
                 <img
                   src={APP_ASSETS.crest}
                   alt="Museum crest"
-                  className="h-14 w-14 rounded-full object-cover border border-stone-200 shadow-sm"
+                  className="h-12 w-12 rounded-full object-cover border border-stone-200 shadow-sm sm:h-14 sm:w-14"
                 />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-stone-500 mb-1">
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-stone-500 mb-1 sm:text-xs">
                     Admission Desk
                   </p>
-                  <h2 className="font-serif text-3xl tracking-tight text-stone-900">
+                  <h2 className="font-serif text-2xl tracking-tight text-stone-900 sm:text-3xl">
                     Begin a new exhibition
                   </h2>
                 </div>
               </div>
 
-              <p className="mb-8 text-[1.02rem] leading-7 text-stone-600">
-                Upload one curator portrait and a small set of day artifacts.
-                The gallery will assemble a mixed-media exhibit with images,
-                plaques, and voice narration.
+              <p className="mb-8 text-[0.98rem] leading-7 text-stone-600 sm:text-[1.02rem]">
+                Upload one pet portrait to define the curator persona, then add 3 to 5 photos
+                from your day as the exhibit artifacts. The gallery will assemble a mixed-media
+                museum experience with visuals, plaques, and narration in that same voice.
               </p>
 
               <UploadForm onSubmit={handleCurationRequest} />
@@ -184,9 +184,9 @@ export default function App() {
         )}
 
         {appState === 'loading' && (
-          <div className="max-w-4xl mx-auto mt-16 rounded-[28px] overflow-hidden border border-stone-200 bg-[#fcfaf7] shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
-            <div className="grid md:grid-cols-[1fr_1fr]">
-              <div className="relative min-h-[340px] md:min-h-[560px]">
+          <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-[28px] border border-stone-200 bg-[#fcfaf7] shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
+            <div className="grid min-[900px]:grid-cols-[1fr_1fr]">
+              <div className="relative min-h-[280px] min-[900px]:min-h-[560px]">
                 <img
                   src={APP_ASSETS.loading}
                   alt="Curator preparing the exhibition"
@@ -195,25 +195,26 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
               </div>
 
-              <div className="p-8 md:p-10 flex flex-col justify-center">
-                <div className="flex items-center gap-4 mb-6">
+              <div className="flex flex-col justify-center p-6 sm:p-8 md:p-10">
+                <div className="mb-6 flex items-center gap-4">
                   <img
                     src={APP_ASSETS.crest}
                     alt="Museum crest"
-                    className="h-12 w-12 rounded-full object-cover border border-stone-200 shadow-sm"
+                    className="h-10 w-10 rounded-full object-cover border border-stone-200 shadow-sm sm:h-12 sm:w-12"
                   />
                   <div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-stone-500 mb-1">
+                    <p className="text-[11px] uppercase tracking-[0.28em] text-stone-500 mb-1 sm:text-xs">
                       Exhibition in progress
                     </p>
-                    <h2 className="font-serif text-3xl tracking-tight text-stone-900">
+                    <h2 className="font-serif text-2xl tracking-tight text-stone-900 sm:text-3xl">
                       Preparing your exhibit
                     </h2>
                   </div>
                 </div>
 
-                <p className="text-stone-600 leading-7 mb-6">
-                  {loadingMessage}
+                <p className="mb-6 leading-7 text-stone-600">
+                  {loadingMessage} Your pet&apos;s portrait is shaping the curator voice while the
+                  uploaded day photos are being arranged into museum artifacts.
                 </p>
 
                 <div className="w-full">
@@ -224,7 +225,7 @@ export default function App() {
                     />
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between text-xs uppercase tracking-[0.22em] text-stone-500">
+                  <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-stone-500 sm:text-xs">
                     <span>Curatorial process</span>
                     <span>{progressPercent}%</span>
                   </div>
