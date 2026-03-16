@@ -30,6 +30,8 @@ gcloud artifacts repositories create "${REPO_NAME}" \
   --location="${REGION}" \
   --description="Docker repository for Pet-Curated Museum"
 
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+
 gcloud builds submit ./backend --tag "${IMAGE_URI}"
 
 gcloud run deploy "${SERVICE_NAME}" \
