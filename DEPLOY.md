@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This document covers deployment for:
+This document covers deployment automation for:
 - Backend on Google Cloud Run
 - Frontend on Firebase Hosting
 
@@ -8,6 +8,20 @@ This document covers deployment for:
 
 - Firebase project: `gen-lang-client-0956985642`
 - Cloud Run service: `pet-curated-museum-api`
+- Live frontend: `https://gen-lang-client-0956985642.firebaseapp.com/`
+
+## Why this matters
+
+This repository includes script-based cloud deployment automation in the public repo.
+
+Deployment automation files:
+- `scripts/deploy_cloud_run.sh`
+- `scripts/destroy_cloud_run.sh`
+- `scripts/deploy_firebase_hosting.sh`
+- `scripts/deploy_firebase_preview.sh`
+- `scripts/disable_firebase_hosting.sh`
+
+These scripts are included to demonstrate automated cloud deployment for both the backend and frontend.
 
 ## Prerequisites
 
@@ -22,85 +36,80 @@ gcloud auth login
 firebase login
 ```
 
-## Backend deployment (Google Cloud Run)
+## Backend deployment automation
 
-### 1. Move to the backend directory
-
-```bash
-cd backend
-```
-
-### 2. Set environment variables
+### Deploy backend to Cloud Run
 
 ```bash
-export PROJECT_ID="gen-lang-client-0956985642"
-export REGION="asia-south1"
-export SERVICE_NAME="pet-curated-museum-api"
-export GEMINI_API_KEY="YOUR_ACTUAL_GEMINI_API_KEY"
+PROJECT_ID="gen-lang-client-0956985642" ./scripts/deploy_cloud_run.sh
 ```
 
-### 3. Select the project
+What this script does:
+- Sets the active Google Cloud project
+- Ensures the Artifact Registry repository exists
+- Enables required Google Cloud services
+- Builds the backend container image
+- Pushes the image to Artifact Registry
+- Deploys the service to Cloud Run
+
+### Destroy backend deployment
 
 ```bash
-gcloud config set project "$PROJECT_ID"
+PROJECT_ID="gen-lang-client-0956985642" ./scripts/destroy_cloud_run.sh
 ```
 
-### 4. Enable required services
+Optional cleanup:
+```bash
+PROJECT_ID="gen-lang-client-0956985642" DELETE_IMAGES=true DELETE_REPOSITORY=true ./scripts/destroy_cloud_run.sh
+```
+
+What this script does:
+- Deletes the Cloud Run service
+- Optionally deletes container images
+- Optionally deletes the Artifact Registry repository
+
+## Frontend deployment automation
+
+### Deploy frontend to Firebase Hosting
 
 ```bash
-gcloud services enable \
-  run.googleapis.com \
-  cloudbuild.googleapis.com \
-  artifactregistry.googleapis.com
+PROJECT_ID="gen-lang-client-0956985642" ./scripts/deploy_firebase_hosting.sh
 ```
 
-### 5. Deploy to Cloud Run
+What this script does:
+- Selects the Firebase project
+- Installs frontend dependencies
+- Builds the frontend
+- Deploys the site to Firebase Hosting
+
+### Deploy a preview channel
 
 ```bash
-gcloud run deploy "$SERVICE_NAME" \
-  --source . \
-  --region "$REGION" \
-  --allow-unauthenticated \
-  --set-env-vars "GEMINI_API_KEY=$GEMINI_API_KEY"
+PROJECT_ID="gen-lang-client-0956985642" ./scripts/deploy_firebase_preview.sh
 ```
 
-### 6. Save the backend URL
+Optional custom preview settings:
+```bash
+PROJECT_ID="gen-lang-client-0956985642" CHANNEL_ID="judge-preview" EXPIRES="7d" ./scripts/deploy_firebase_preview.sh
+```
 
-After deployment, copy the Cloud Run service URL and store it for the frontend configuration.
+What this script does:
+- Builds the frontend
+- Deploys the site to a Firebase Hosting preview channel
+- Returns a shareable preview URL
 
-Example:
+### Disable live Firebase Hosting
 
 ```bash
-export CLOUD_RUN_URL="PASTE_THE_SERVICE_URL_HERE"
+PROJECT_ID="gen-lang-client-0956985642" ./scripts/disable_firebase_hosting.sh
 ```
 
-## Backend verification
+What this script does:
+- Disables the currently served Firebase Hosting site for the active project
 
-### Health check
+## Manual environment configuration
 
-```bash
-curl "$CLOUD_RUN_URL/health"
-```
-
-### Curate endpoint test
-
-```bash
-curl -X POST "$CLOUD_RUN_URL/api/exhibit/interleaved" \
-  -F "pet_photo=@/path/to/pet_photo.jpeg" \
-  -F "day_photos=@/path/to/day_photo_1.jpeg" \
-  -F "day_photos=@/path/to/day_photo_2.jpeg" \
-  -F "day_photos=@/path/to/day_photo_3.jpeg"
-```
-
-## Frontend deployment (Firebase Hosting)
-
-### 1. Move to the frontend directory
-
-```bash
-cd frontend
-```
-
-### 2. Configure frontend environment
+### Frontend
 
 Create `frontend/.env.local` with:
 
@@ -108,35 +117,31 @@ Create `frontend/.env.local` with:
 VITE_API_BASE_URL=PASTE_YOUR_CLOUD_RUN_URL_HERE
 ```
 
-### 3. Install dependencies
+### Backend
+
+Set your Gemini API key before backend deployment:
 
 ```bash
-npm install
+export GEMINI_API_KEY="YOUR_ACTUAL_GEMINI_API_KEY"
 ```
 
-### 4. Build the frontend
+## Verification
 
+### Backend
+
+Health check:
 ```bash
-npm run build
+curl "$CLOUD_RUN_URL/health"
 ```
 
-### 5. Select the Firebase project
-
-From the repo root:
-
+Interleaved exhibit endpoint:
 ```bash
-firebase use gen-lang-client-0956985642
+curl -X POST "$CLOUD_RUN_URL/api/exhibit/interleaved" \
+  -F "pet_photo=@/path/to/pet_photo.jpeg" \
+  -F "day_photos=@/path/to/day_photo_1.jpeg" \
+  -F "day_photos=@/path/to/day_photo_2.jpeg" \
+  -F "day_photos=@/path/to/day_photo_3.jpeg"
 ```
-
-### 6. Deploy Hosting
-
-From the repo root:
-
-```bash
-firebase deploy --only hosting
-```
-
-## Post-deploy verification
 
 ### Frontend
 
@@ -146,40 +151,11 @@ firebase deploy --only hosting
 - Generate an exhibit
 - Verify that artifact cards render successfully
 
-### Backend
+## Proof for judges
 
-- Confirm `/health` returns a success response
-- Confirm `/api/exhibit/interleaved` accepts multipart form uploads
-- Confirm Cloud Run logs show successful requests
+This repository proves automated cloud deployment through public deployment scripts for:
+- Google Cloud Run backend deployment
+- Firebase Hosting frontend deployment
 
-## Troubleshooting
-
-### Frontend cannot reach backend
-
-- Verify `VITE_API_BASE_URL` points to the deployed Cloud Run service
-- Rebuild the frontend after changing env values
-- Redeploy Firebase Hosting
-
-### Cloud Run deploy fails
-
-- Verify billing and APIs are enabled
-- Verify `GEMINI_API_KEY` is set
-- Verify the active GCP project is correct
-
-### API works locally but not in production
-
-- Check Cloud Run logs
-- Check request payload size and uploaded image formats
-- Verify the deployed service URL is the one used by the frontend
-
-## Proof of Google Cloud deployment
-
-Use either of these as proof:
-- Screen recording of the live app plus Cloud Run service logs
-- Repository code links showing Google Cloud and Gemini integration
-
-Current proof video:
+Google Cloud deployment proof video:
 - https://youtu.be/Nht0PX_IHok
-```
-
-Source values used above: Firebase-hosted frontend at `https://gen-lang-client-0956985642.firebaseapp.com/`, Cloud Run service `pet-curated-museum-api`, GitHub repo `https://github.com/surya3214/pet-curated-museum`, and Firebase project `gen-lang-client-0956985642`.

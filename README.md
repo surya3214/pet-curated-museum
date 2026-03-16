@@ -149,3 +149,13 @@ That file includes:
 - Firebase Hosting frontend deployment
 - Environment configuration
 - Post-deploy verification steps
+
+## Deployment automation
+
+This repo includes public deployment scripts for both backend and frontend automation.
+
+- Cloud Run backend deploy: `scripts/deploy_cloud_run.sh`
+- Cloud Run backend teardown: `scripts/destroy_cloud_run.sh`
+- Firebase Hosting deploy: `scripts/deploy_firebase_hosting.sh`
+- Firebase Hosting preview deploy: `scripts/deploy_firebase_preview.sh`
+- Firebase Hosting disable: `scripts/disable_firebase_hosting.sh`
