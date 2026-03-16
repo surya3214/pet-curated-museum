@@ -140,10 +140,6 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
             <h3 className="font-serif text-2xl tracking-tight text-stone-900">
               Commission an exhibit
             </h3>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-stone-600">
-              Choose one pet portrait to define the curator, then add 3 to 5 photos from your day
-              to become the museum artifacts.
-            </p>
           </div>
 
           <button
@@ -164,13 +160,9 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
             </label>
 
             <span className="inline-flex w-fit rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500 border border-stone-200">
-              Used for persona
+              Persona
             </span>
           </div>
-
-          <p className="mb-3 text-sm leading-6 text-stone-600">
-            Upload 1 pet photo. This defines the curator&apos;s personality, tone, and narration style.
-          </p>
 
           <input
             type="file"
@@ -191,14 +183,9 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
             </label>
 
             <span className="inline-flex w-fit rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-500 border border-stone-200">
-              Used for exhibit content
+              Exhibit content
             </span>
           </div>
-
-          <p className="mb-3 text-sm leading-6 text-stone-600">
-            Upload {MIN_DAY_PHOTOS} to {MAX_DAY_PHOTOS} photos from your day. These become the
-            museum artifacts your pet curator interprets.
-          </p>
 
           <input
             type="file"
