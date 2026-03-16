@@ -27,6 +27,23 @@ The app uses the pet portrait to derive a fictional curator persona, then turns 
 
 Most daily photos are forgettable. This project reframes them as artifacts in a tiny museum exhibit, narrated by the elevated and judgmental taste of your pet.
 
+## Why the output feels coherent
+
+The app does not treat each photo as an isolated captioning task.  
+Instead, it sends the pet photo and the day photos together in one shared multimodal request so the exhibit can stay consistent in tone, persona, and narrative flow.
+
+The pet photo establishes the curator persona:
+- how the exhibit is framed
+- how the written commentary sounds
+- how the narration is styled
+
+The day photos ground the actual exhibit content:
+- what moments become artifacts
+- what details are described
+- what story the final museum tells
+
+To make the response reliable for rendering, the backend normalizes the model output into structured exhibit blocks before sending it to the frontend.
+
 ## Reproducible testing
 
 Judges can test the project in either of these ways.
