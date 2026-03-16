@@ -124,7 +124,7 @@ VITE_API_BASE_URL=http://127.0.0.1:8000
 
 ### Curate exhibit
 
-`POST /api/v1/curate`
+`POST /api/exhibit/interleaved`
 
 Form fields:
 - `pet_photo`

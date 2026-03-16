@@ -85,7 +85,7 @@ curl "$CLOUD_RUN_URL/health"
 ### Curate endpoint test
 
 ```bash
-curl -X POST "$CLOUD_RUN_URL/api/v1/curate" \
+curl -X POST "$CLOUD_RUN_URL/api/exhibit/interleaved" \
   -F "pet_photo=@/path/to/pet_photo.jpeg" \
   -F "day_photos=@/path/to/day_photo_1.jpeg" \
   -F "day_photos=@/path/to/day_photo_2.jpeg" \
@@ -149,7 +149,7 @@ firebase deploy --only hosting
 ### Backend
 
 - Confirm `/health` returns a success response
-- Confirm `/api/v1/curate` accepts multipart form uploads
+- Confirm `/api/exhibit/interleaved` accepts multipart form uploads
 - Confirm Cloud Run logs show successful requests
 
 ## Troubleshooting
